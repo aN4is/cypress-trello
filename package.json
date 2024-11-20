@@ -1,5 +1,5 @@
 {
-  "name": "cypress-basics-tau",
+  "name": "cypress-trello",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,10 +15,12 @@
     "workshop",
     "javascript"
   ],
-  "author": "Filip Hric (https://filiphric.com/)",
   "license": "ISC",
   "dependencies": {
     "@applitools/eyes-cypress": "^3.33.1",
     "cypress": "^12.14.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
   }
 }

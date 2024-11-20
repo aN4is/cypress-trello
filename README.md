@@ -1,12 +1,9 @@
-# Introduction to Cypress - Test automation university
+# Cypress Trello Clone Project
 
-This is a companion repository for the [Introduction to Cypress course on Test Automation university](https://testautomationu.applitools.com/cypress-getting-started/)
-
-## Author
-I am Filip. I am DevRel at [Replay.io](https://replay.io) and a [Cypress ambassador](https://cypress.io/ambassadors/)
+This project is based on the Introduction to Cypress course provided by Test Automation University. It has been modified and personalized to serve as a learning tool and experimentation platform for test automation.
 
 ## What’s in this repo
-This repo contains all the materials for the course. Most of the chapters start with `[chapter_name]_start.js` and finish with `[chapter_name]_end.js` file. 
+This project includes a clone of a popular Trello app, built to support learning and practice with test automation using Cypress. You can create boards, lists, and cards, perform drag-and-drop operations, and even upload images to card details. A simple signup and login feature is also included, allowing users to create private boards.
 
 ## Trello clone app
 Bundled as a submodule is an app that is a clone of a popular [Trello app](https://trello.com). You can create boards, lists and cards. You can drag and drop cards between lists or even upload a picture to the card detail. There’s also a very simple signup and login which will allow you to create private boards
