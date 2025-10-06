@@ -5,6 +5,8 @@ node_modules/
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
+.applitools/
+applitools.config.js
 
 # Logs
 *.log
