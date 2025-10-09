@@ -8,6 +8,7 @@
     "cy:run": "npx cypress run",
     "cy:smoke": "cypress run --spec 'cypress/e2e/smoke/**/*.cy.ts'",
     "start": "cd trelloapp && npm start",
+    "docker:start": "cd trelloapp && npm start -- --host 0.0.0.0",
     "trello": "cd trelloapp && npm start",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings=0",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",

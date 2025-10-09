@@ -24,17 +24,6 @@ COPY . .
 WORKDIR /app/trelloapp
 RUN npm ci
 
-WORKDIR /app
-# Explicitly update and initialize Git submodules
-# The 'trelloapp' directory should now be correctly populated
-# RUN git submodule update --init --recursive --remote
-
-
-
-# Copy source code
-WORKDIR /app
-COPY . .
-
 # Expose Vite dev server port
 EXPOSE 3000
 
@@ -43,4 +32,4 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=3 \
     CMD node -e "require('http').get('http://localhost:3000', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 # Start the Trello application
-CMD ["npm", "start"]
+CMD ["npm", "docker:start"]
