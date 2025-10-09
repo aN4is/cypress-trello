@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  trello-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: trello-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./trelloapp:/app/trelloapp
+      - /app/node_modules
+      - /app/trelloapp/node_modules
+    environment:
+      - NODE_ENV=development
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+  cypress:
+    image: cypress/included:13.6.0
+    container_name: cypress-tests
+    depends_on:
+      trello-app:
+        condition: service_healthy
+    environment:
+      - CYPRESS_baseUrl=http://trello-app:3000
+    working_dir: /e2e
+    volumes:
+      - ./cypress:/e2e/cypress
+      - ./cypress.config.ts:/e2e/cypress.config.ts
+      - ./package.json:/e2e/package.json
+      - ./cypress/screenshots:/e2e/cypress/screenshots
+      - ./cypress/videos:/e2e/cypress/videos
+    command: npx cypress run --spec "cypress/e2e/smoke/**/*.cy.ts"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge

@@ -1,0 +1,4 @@
+echo "Validating commit message..."
+
+# Validate commit message format
+npx --no -- commitlint --edit "$1"

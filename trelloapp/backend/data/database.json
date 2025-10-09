@@ -1,113 +1,31 @@
 {
   "boards": [
     {
-      "name": "edited board",
+      "name": "Builder Board",
       "user": 0,
-      "starred": true,
-      "created": "2024-09-08",
+      "starred": false,
+      "created": "2025-10-09",
       "id": 1
-    },
-    {
-      "name": "another board",
-      "user": 0,
-      "starred": false,
-      "created": "2024-09-08",
-      "id": 2
-    },
-    {
-      "name": "new board",
-      "user": 0,
-      "starred": false,
-      "created": "2024-09-11",
-      "id": 3
-    },
-    {
-      "name": "new board",
-      "user": 0,
-      "starred": false,
-      "created": "2024-09-11",
-      "id": 4
-    },
-    {
-      "name": "new board",
-      "user": 0,
-      "starred": false,
-      "created": "2024-09-11",
-      "id": 5
-    },
-    {
-      "name": "new board",
-      "user": 0,
-      "starred": false,
-      "created": "2024-09-11",
-      "id": 6
-    },
-    {
-      "name": "new board",
-      "user": 0,
-      "starred": false,
-      "created": "2024-09-11",
-      "id": 7
-    },
-    {
-      "name": "new board",
-      "user": 0,
-      "starred": false,
-      "created": "2024-09-11",
-      "id": 8
-    },
-    {
-      "name": "new board",
-      "user": 0,
-      "starred": false,
-      "created": "2024-09-11",
-      "id": 9
     }
   ],
-  "cards": [
-    {
-      "order": 0,
-      "boardId": 1,
-      "listId": 1,
-      "name": "bread",
-      "created": "2024-09-08",
-      "deadline": "2024-09-11",
-      "description": "",
-      "completed": false,
-      "id": 1
-    },
-    {
-      "order": 0,
-      "boardId": 1,
-      "listId": 3,
-      "name": "subtask",
-      "created": "2024-09-11",
-      "deadline": "2024-09-12",
-      "description": "fasdfasdf",
-      "completed": false,
-      "id": 2
-    }
-  ],
+  "cards": [],
   "lists": [
     {
       "boardId": 1,
-      "name": "groceries",
-      "order": 0,
-      "created": "2024-09-08",
+      "name": "To Do",
+      "created": "2025-10-09",
       "id": 1
     },
     {
       "boardId": 1,
-      "name": "asdfasd",
-      "order": 1,
-      "created": "2024-09-11",
+      "name": "In Progress",
+      "created": "2025-10-09",
       "id": 2
     },
     {
       "boardId": 1,
-      "name": "task 1",
-      "order": 2,
-      "created": "2024-09-11",
+      "name": "Done",
+      "created": "2025-10-09",
       "id": 3
     }
   ],

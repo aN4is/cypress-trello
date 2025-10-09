@@ -1,0 +1,5 @@
+{
+  "kanbanLists": ["To Do", "In Progress", "Done"],
+  "sprintLists": ["Backlog", "Sprint", "In Review", "Completed"],
+  "groceryLists": ["Vegetables", "Fruits", "Dairy", "Bakery"]
+}

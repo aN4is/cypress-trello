@@ -1,0 +1,101 @@
+name: Docker E2E Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  # ----------------------------------------------------------------
+  # JOB 1: Run Smoke Tests across multiple browsers
+  # ----------------------------------------------------------------
+  smoke_tests:
+    name: Smoke Tests (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox, edge]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # This step caches the Docker layers to speed up subsequent builds.
+      # The cache is scoped to the branch, so PRs get fresh caches but
+      # subsequent pushes to the same branch are much faster.
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.ref }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build and load Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true # Load the image into the local Docker daemon
+          tags: trello-app:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      # This handles the case where the cache doesn't exist on the first run
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Start Trello app container
+        run: |
+          docker run \
+            -d \
+            --name trello-app \
+            -p 3000:3000 \
+            trello-app:latest
+
+      # The Cypress action has a built-in wait-on feature that is more robust.
+      - name: Run Cypress smoke tests
+        uses: cypress-io/github-action@v6
+        with:
+          browser: ${{ matrix.browser }}
+          spec: cypress/e2e/smoke/**/*.cy.ts
+          # Wait for the app to be responsive before running tests
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120 # Wait for up to 2 minutes
+        env:
+          # Point Cypress to the Dockerized app
+          CYPRESS_baseUrl: http://localhost:3000
+
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: smoke-screenshots-${{ matrix.browser }}
+          path: cypress/screenshots
+          retention-days: 7
+
+      - name: Upload videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-videos-${{ matrix.browser }}
+          path: cypress/videos
+          retention-days: 7
+
+      # This step will run even if the Cypress tests fail, ensuring cleanup.
+      - name: Cleanup Trello app container
+        if: always()
+        run: |
+          echo "Stopping and removing the Docker container..."
+          docker logs trello-app || true
+          docker stop trello-app || true
+          docker rm trello-app || true

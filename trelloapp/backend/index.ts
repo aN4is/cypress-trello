@@ -23,12 +23,17 @@ export const startServer = (): PluginOption => {
   const router = jsonServer.router('./backend/data/database.json');
 
   app.db = router.db;
-  app.use(history());
+
+  // Middleware that needs to run before routes
   app.use(jsonServer.defaults({ static: '.' }));
   app.use(nocache());
   app.use(busboy());
   app.use(jsonServer.bodyParser);
   app.use(middleware);
+
+  // API routes
+  // NOTE: These routes receive requests WITHOUT /api prefix
+  // because Vite proxy (vite.config.ts) strips /api before forwarding to this server
   app.use('/login', loginRoutes)
   app.use('/signup', signupRoutes)
   app.use(jsonServer.rewriter({
@@ -41,8 +46,11 @@ export const startServer = (): PluginOption => {
   app.use('/users', userRoutes)
   app.use('/reset', resetRoutes)
   app.use('/location', locationRoutes)
-
   app.use(router);
+
+  // History fallback for SPA - NOT NEEDED on API server (port 3001)
+  // This server only handles API requests, not frontend routing
+  // app.use(history());
 
   const server = app.listen(SERVER);
   // const io = require('socket.io')(server);

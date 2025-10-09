@@ -1,0 +1,23 @@
+{
+  "fullBoard": {
+    "boardName": "Complete Test Board",
+    "lists": [
+      {
+        "listName": "Backlog",
+        "cards": ["User story 1", "User story 2", "Bug fix needed"]
+      },
+      {
+        "listName": "In Development",
+        "cards": ["Feature implementation", "API integration"]
+      },
+      {
+        "listName": "Testing",
+        "cards": ["QA testing required"]
+      },
+      {
+        "listName": "Deployed",
+        "cards": []
+      }
+    ]
+  }
+}

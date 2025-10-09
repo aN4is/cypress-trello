@@ -1,0 +1,19 @@
+echo "Running pre-push checks..."
+
+# Check if trello app is running
+if ! curl -fsS http://localhost:3000 >/dev/null 2>&1; then
+  echo "Warning: Trello app is not running. Skipping smoke tests."
+  echo "To run smoke tests, start the app with: npm start"
+  exit 0
+fi
+
+# Run smoke tests if app is available
+echo "Running smoke tests..."
+npm run cy:smoke -- --headless
+
+if [ $? -ne 0 ]; then
+  echo "Smoke tests failed. Please fix before pushing."
+  exit 1
+fi
+
+echo "Pre-push checks passed!"

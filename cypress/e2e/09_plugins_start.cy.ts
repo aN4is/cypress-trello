@@ -1,5 +1,0 @@
-it('plugins', () => {
-
-  cy.visit('/')
-
-});

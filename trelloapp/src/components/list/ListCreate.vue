@@ -18,6 +18,7 @@
     >
     <div>
       <SaveButton
+        data-cy="add-list"
         buttontext="Add list"
         @click="addList()"
       />
