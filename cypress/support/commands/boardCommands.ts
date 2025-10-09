@@ -1,6 +1,6 @@
-import Board from 'trelloapp/src/typings/board';
-import List from 'trelloapp/src/typings/list';
-import Card from 'trelloapp/src/typings/card';
+import Board from '../../../trelloapp/src/typings/board';
+import List from '../../../trelloapp/src/typings/list';
+import Card from '../../../trelloapp/src/typings/card';
 
 // Board API commands
 Cypress.Commands.add('createBoard', (boardName: string) => {

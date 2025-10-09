@@ -1,6 +1,6 @@
 import { HomePage, BoardPage } from '../../support/pages';
-import List from 'trelloapp/src/typings/list';
-import Card from 'trelloapp/src/typings/card';
+import List from '../../../trelloapp/src/typings/list';
+import Card from '../../../trelloapp/src/typings/card';
 
 describe('End-to-End Flow - Smoke Test', () => {
   const homePage = new HomePage();
