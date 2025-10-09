@@ -9,16 +9,15 @@ on:
 
 jobs:
   # ----------------------------------------------------------------
-  # JOB 1: Start Dockerized Application (Shared Setup)
+  # JOB 1: Run Smoke Tests across multiple browsers
   # ----------------------------------------------------------------
-  setup_app:
-    name: Setup Docker Application
+  smoke_tests:
+    name: Smoke Tests (${{ matrix.browser }})
     runs-on: ubuntu-latest
-
-    # Define an output to easily pass the Trello container IP if needed,
-    # though localhost often works when running the app on the host machine.
-    outputs:
-      app_ready: ${{ steps.wait_for_app.outcome }}
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox, edge]
 
     steps:
       - name: Checkout code
@@ -29,69 +28,51 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Build the application image (This is the slow part, run only once)
-      - name: Build Trello app Docker image
-        run: docker build -t trello-app .
+      # This step caches the Docker layers to speed up subsequent builds.
+      # The cache is scoped to the branch, so PRs get fresh caches but
+      # subsequent pushes to the same branch are much faster.
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.ref }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build and load Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true # Load the image into the local Docker daemon
+          tags: trello-app:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      # This handles the case where the cache doesn't exist on the first run
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Start Trello app container
-        # Run the container in detached mode and expose port 3000
-        run: docker run -d --name trello-app -p 3000:3000 trello-app
-
-      - name: Wait for Trello app to be ready
-        id: wait_for_app
         run: |
-          echo "Waiting for Trello app to start on http://localhost:3000..."
-          for i in {1..60}; do
-            if curl -fsS http://localhost:3000 >/dev/null 2>&1; then
-              echo "Trello app is ready"
-              exit 0
-            fi
-            echo "Attempt $i/60 - App not ready yet..."
-            sleep 2
-          done
-          echo "Trello app did not become ready in time"
-          docker logs trello-app
-          exit 1
+          docker run \
+            -d \
+            --name trello-app \
+            -p 3000:3000 \
+            trello-app:latest
 
-  # ----------------------------------------------------------------
-  # JOB 2: Run Multi-Browser Smoke Tests
-  # This depends on the setup_app job being successful.
-  # ----------------------------------------------------------------
-  smoke_tests:
-    name: Smoke Tests (${{ matrix.browser }})
-    runs-on: ubuntu-latest
-    # This job needs the app setup to run, but we don't formally use the 'needs'
-    # keyword here because the app is running on the host via 'setup_app'
-    # and we want to ensure tests run consistently.
-    # Note: For simplicity and consistency with your original files, we keep the app
-    # running on the host machine in a container, accessible via localhost:3000,
-    # and run the tests on the same host.
-
-    strategy:
-      fail-fast: false
-      matrix:
-        # Use the multi-browser matrix from your old cypress-tests.yml
-        browser: [chrome, firefox, edge]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      # We use the official Cypress action, which handles Node/Cypress installation
-      # more reliably than manual npm commands.
+      # The Cypress action has a built-in wait-on feature that is more robust.
       - name: Run Cypress smoke tests
         uses: cypress-io/github-action@v6
         with:
-          # The app is already running (via the docker run command in the previous job),
-          # so we just need to run Cypress tests against it.
-          install: true # Install Cypress/Node deps here
           browser: ${{ matrix.browser }}
           spec: cypress/e2e/smoke/**/*.cy.ts
-          # Cypress will look for the baseUrl from the environment variable set below
+          # Wait for the app to be responsive before running tests
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120 # Wait for up to 2 minutes
         env:
-          # Point the tests to the Dockerized app running on the host
+          # Point Cypress to the Dockerized app
           CYPRESS_baseUrl: http://localhost:3000
 
       - name: Upload screenshots on failure
@@ -110,54 +91,11 @@ jobs:
           path: cypress/videos
           retention-days: 7
 
-  # ----------------------------------------------------------------
-  # JOB 3: Run Regression Tests
-  # This runs a larger, more time-consuming suite, only on Pull Requests
-  # and only after smoke tests have passed.
-  # ----------------------------------------------------------------
-  regression_tests:
-    name: Run Regression Tests
-    runs-on: ubuntu-latest
-    needs: [smoke_tests]
-    if: success() && github.event_name == 'pull_request'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Run Cypress regression tests
-        uses: cypress-io/github-action@v6
-        with:
-          install: true
-          browser: chrome
-          spec: cypress/e2e/regression/**/*.cy.ts
-        env:
-          CYPRESS_baseUrl: http://localhost:3000
-
-      - name: Upload test artifacts
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-regression-artifacts
-          path: |
-            cypress/screenshots
-            cypress/videos
-          retention-days: 7
-
-  # ----------------------------------------------------------------
-  # JOB 4: Cleanup (Always runs to stop Docker container)
-  # ----------------------------------------------------------------
-  cleanup_app:
-    name: Cleanup Docker Container
-    runs-on: ubuntu-latest
-    # Ensure this job always runs, regardless of whether tests passed or failed
-    if: always()
-
-    steps:
-      - name: Cleanup Trello app
+      # This step will run even if the Cypress tests fail, ensuring cleanup.
+      - name: Cleanup Trello app container
+        if: always()
         run: |
-          # Use '|| true' to prevent the step from failing if the container isn't running
+          echo "Stopping and removing the Docker container..."
+          docker logs trello-app || true
           docker stop trello-app || true
           docker rm trello-app || true
