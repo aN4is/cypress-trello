@@ -1,5 +1,5 @@
 # Use official Node.js LTS image
-FROM node:18-slim AS base
+FROM node:20-slim AS base
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
