@@ -1,6 +1,4 @@
 import { HomePage, BoardPage } from '../../support/pages';
-//import List from '../../../trelloapp/src/typings/list';
-//import Card from '../../../trelloapp/src/typings/card';
 
 describe('End-to-End Flow - Smoke Test', () => {
   const homePage = new HomePage();
@@ -34,7 +32,6 @@ describe('End-to-End Flow - Smoke Test', () => {
         // Verify specific cards exist
         boardData.lists.forEach((list: any) => {
           list.cards.forEach((card: string) => {
-            console.log(card);
             boardPage.assertCardExists(card);
           });
         });
