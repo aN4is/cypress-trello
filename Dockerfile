@@ -24,6 +24,9 @@ COPY . .
 WORKDIR /app/trelloapp
 RUN npm ci
 
+# Back to the root of the project
+WORKDIR /app
+
 # Expose Vite dev server port
 EXPOSE 3000
 
