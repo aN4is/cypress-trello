@@ -4,11 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cy:open": "./node_modules/.bin/cypress open --e2e --browser chrome",
-    "cy:run": "./node_modules/.bin/cypress run",
+    "cy:open": "npx cypress open --e2e --browser chrome",
+    "cy:run": "npx cypress run",
+    "cy:smoke": "cypress run --spec 'cypress/e2e/smoke/**/*.cy.ts'",
     "postinstall": "git submodule update --init --recursive --remote && cd trelloapp && npm install",
     "start": "cd trelloapp && npm start",
-    "trello": "cd trelloapp && npm start"
+    "trello": "cd trelloapp && npm start",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings=0",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "type-check": "tsc --noEmit",
+    "validate": "npm run format:check && npm run lint && npm run type-check",
+    "prepare": "husky install"
   },
   "keywords": [
     "cypress",
@@ -21,6 +29,31 @@
     "cypress": "15.3.0"
   },
   "devDependencies": {
-    "typescript": "^4.9.5"
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@eslint/js": "^9.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.12.2",
+    "@typescript-eslint/parser": "^8.12.2",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-cypress": "^3.5.0",
+    "globals": "^15.11.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.12.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ],
+    "cypress/**/*.cy.ts": [
+      "eslint --fix"
+    ]
   }
 }

@@ -1,14 +1,33 @@
 {
   "boards": [
     {
-      "name": "test-dashboard",
+      "name": "Builder Board",
       "user": 0,
       "starred": false,
-      "created": "2025-10-06",
+      "created": "2025-10-08",
       "id": 1
     }
   ],
   "cards": [],
-  "lists": [],
+  "lists": [
+    {
+      "boardId": 1,
+      "name": "To Do",
+      "created": "2025-10-08",
+      "id": 1
+    },
+    {
+      "boardId": 1,
+      "name": "In Progress",
+      "created": "2025-10-08",
+      "id": 2
+    },
+    {
+      "boardId": 1,
+      "name": "Done",
+      "created": "2025-10-08",
+      "id": 3
+    }
+  ],
   "users": []
 }

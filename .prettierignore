@@ -1,0 +1,12 @@
+node_modules
+dist
+build
+coverage
+*.log
+.git
+.github
+trelloapp
+cypress/screenshots
+cypress/videos
+cypress/downloads
+package-lock.json

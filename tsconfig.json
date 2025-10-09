@@ -8,7 +8,14 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["cypress/*"]
+    }
   },
-  "include": ["**/*.ts"]
+  "include": ["cypress/**/*.ts", "cypress.config.ts", "cypress/support/index.d.ts"],
+  "exclude": ["node_modules", "trelloapp", "dist", "build"]
 }

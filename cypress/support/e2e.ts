@@ -1,5 +1,5 @@
 // ***********************************************************
-// This example support/e2e.js is processed and
+// This example support/e2e.ts is processed and
 // loaded automatically before your test files.
 //
 // This is a great place to put global configuration and
@@ -13,11 +13,11 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-import '@applitools/eyes-cypress/commands'
+/// <reference types="cypress" />
+import 'index.d.ts';
 
+// Applitools Eyes commands (commented out - enable if you have API key)
+// import '@applitools/eyes-cypress/commands'
 
-// Import commands.js using ES2015 syntax:
-import './commands'
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+// Import custom commands
+import './commands';

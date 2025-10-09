@@ -1,0 +1,44 @@
+# Node modules
+node_modules
+trelloapp/node_modules
+
+# Cypress artifacts
+cypress/screenshots
+cypress/videos
+cypress/downloads
+
+# Git
+.git
+.gitignore
+.gitmodules
+
+# CI/CD
+.github
+
+# Documentation
+*.md
+!trelloapp/README.md
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Environment
+.env.local
+.env.*.local
+
+# Build artifacts
+dist
+build

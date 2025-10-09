@@ -1,0 +1,83 @@
+name: Docker E2E Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  docker-test:
+    name: Build & E2E
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Trello app Docker image
+        run: docker build -t trello-app .
+
+      - name: Start Trello app container
+        run: docker run -d --name trello-app -p 3000:3000 trello-app
+
+      - name: Wait for Trello app to be ready
+        run: |
+          echo "Waiting for Trello app to start..."
+          for i in {1..60}; do
+            if curl -fsS http://localhost:3000 >/dev/null 2>&1; then
+              echo "Trello app is ready"
+              exit 0
+            fi
+            echo "Attempt $i/60 - App not ready yet..."
+            sleep 2
+          done
+          echo "Trello app did not become ready in time"
+          docker logs trello-app
+          exit 1
+
+      - name: Setup Node.js for Cypress
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Cypress and dependencies
+        run: npm ci
+
+      - name: Run Cypress E2E smoke tests
+        run: npm run cy:run -- --spec "cypress/e2e/smoke/**/*.cy.ts"
+        env:
+          CYPRESS_baseUrl: http://localhost:3000
+
+      - name: Upload Cypress screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 7
+
+      - name: Upload Cypress videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          retention-days: 7
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker logs trello-app || true
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker stop trello-app || true
+          docker rm trello-app || true

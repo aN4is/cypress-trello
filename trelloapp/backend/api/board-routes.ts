@@ -44,12 +44,17 @@ app.get('/:id', ({ app: { parent: { db } }, params, headers }, res, next) => {
     .find({ id: boardId })
     .value();
 
+  // Check if board was found at all
+  if (!board) {
+    return res.status(404).jsonp({ error: 'Board not found' });
+  }
+
   const userId = getUserId(headers) || 0;
 
   if (board.user === userId || board.user === 0) {
 
-    next()
-
+    //next()
+    return res.status(200).jsonp(board);
   }
   else {
     res.status(403).jsonp({

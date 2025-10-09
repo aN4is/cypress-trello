@@ -1,0 +1,14 @@
+{
+  "projectBoard": {
+    "name": "Project Alpha",
+    "starred": false
+  },
+  "personalBoard": {
+    "name": "Personal Tasks",
+    "starred": true
+  },
+  "sprintBoard": {
+    "name": "Sprint Planning",
+    "starred": false
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "toDo": ["Write unit tests", "Update documentation", "Code review PR #123"],
+    "inProgress": ["Implement login feature", "Fix bug in API"],
+    "done": ["Setup CI/CD pipeline", "Database migration"]
+  },
+  "groceries": {
+    "vegetables": ["Carrots", "Broccoli", "Tomatoes"],
+    "fruits": ["Apples", "Bananas", "Oranges"]
+  }
+}
