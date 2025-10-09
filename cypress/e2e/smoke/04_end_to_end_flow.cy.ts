@@ -1,6 +1,6 @@
 import { HomePage, BoardPage } from '../../support/pages';
-import List from '../../../trelloapp/src/typings/list';
-import Card from '../../../trelloapp/src/typings/card';
+//import List from '../../../trelloapp/src/typings/list';
+//import Card from '../../../trelloapp/src/typings/card';
 
 describe('End-to-End Flow - Smoke Test', () => {
   const homePage = new HomePage();
@@ -26,15 +26,16 @@ describe('End-to-End Flow - Smoke Test', () => {
 
         // Count total cards
         const totalCards = boardData.lists.reduce(
-          (sum: number, list: List) => sum + list.cards.length,
+          (sum: number, list: any) => sum + list.cards.length,
           0
         );
         boardPage.assertCardCount(totalCards);
 
         // Verify specific cards exist
-        boardData.lists.forEach((list: List) => {
-          list.cards.forEach((card: Card) => {
-            boardPage.assertCardExists(card.name);
+        boardData.lists.forEach((list: any) => {
+          list.cards.forEach((card: string) => {
+            console.log(card);
+            boardPage.assertCardExists(card);
           });
         });
       });
