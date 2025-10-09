@@ -35,4 +35,4 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=3 \
     CMD node -e "require('http').get('http://localhost:3000', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 # Start the Trello application
-CMD ["npm", "docker:start"]
+CMD ["npm", "run", "docker:start"]
