@@ -20,13 +20,16 @@ RUN npm ci
 # Copy all code (including the .gitmodules file and the trelloapp directory structure)
 COPY . .
 
-# Explicitly update and initialize Git submodules
-# The 'trelloapp' directory should now be correctly populated
-RUN git submodule update --init --recursive --remote
-
 # Install trelloapp dependencies
 WORKDIR /app/trelloapp
 RUN npm ci
+
+WORKDIR /app
+# Explicitly update and initialize Git submodules
+# The 'trelloapp' directory should now be correctly populated
+# RUN git submodule update --init --recursive --remote
+
+
 
 # Copy source code
 WORKDIR /app
