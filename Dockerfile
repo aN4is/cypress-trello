@@ -17,8 +17,12 @@ COPY package*.json ./
 # Install root dependencies (including devDependencies for Cypress)
 RUN npm ci
 
-# Copy trelloapp package files
-COPY trelloapp/package*.json ./trelloapp/
+# Copy all code (including the .gitmodules file and the trelloapp directory structure)
+COPY . .
+
+# Explicitly update and initialize Git submodules
+# The 'trelloapp' directory should now be correctly populated
+RUN git submodule update --init --recursive --remote
 
 # Install trelloapp dependencies
 WORKDIR /app/trelloapp

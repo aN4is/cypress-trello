@@ -7,7 +7,6 @@
     "cy:open": "npx cypress open --e2e --browser chrome",
     "cy:run": "npx cypress run",
     "cy:smoke": "cypress run --spec 'cypress/e2e/smoke/**/*.cy.ts'",
-    "postinstall": "git submodule update --init --recursive --remote && cd trelloapp && npm install",
     "start": "cd trelloapp && npm start",
     "trello": "cd trelloapp && npm start",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings=0",
