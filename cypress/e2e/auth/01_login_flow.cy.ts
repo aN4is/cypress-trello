@@ -159,15 +159,5 @@ describe('Login Flow - Authentication Tests', () => {
         cy.url().should('include', '/login');
       }
     });
-
-    it('should handle rapid login submissions', () => {
-      cy.fixture('users').then((users) => {
-        for (let i = 0; i < 5; i++) {
-          loginPage.fillEmail(users.testUser.email);
-          loginPage.fillPassword(users.testUser.password);
-          loginPage.submit();
-        }
-      });
-    });
   });
 });

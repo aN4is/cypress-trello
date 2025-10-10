@@ -20,8 +20,7 @@
       data-cy="logged-user"
       @click="
         logout();
-        getBoardList();
-        router.push('/');
+        router.push('/login');
       "
     >
       <LogoutIcon class="self-center ml-2 w-5 h-5 text-white fill-current" />

@@ -20,20 +20,19 @@
         class="px-2 mb-3 w-full h-10 bg-gray3 focus:bg-white rounded-sm"
         placeholder="Password"
         name="password"
-        @keyup.enter="
-          login(loginForm.email, loginForm.password).then(() => {
-            router.push('/');
-          })
-        "
+        @keyup.enter="handleLogin"
       >
+      <div
+        v-if="loginError"
+        data-cy="login-error"
+        class="mb-3 p-2 text-sm text-red-700 bg-red-100 rounded"
+      >
+        {{ loginError }}
+      </div>
       <button
         data-cy="login-submit"
         class="py-2 w-full text-white bg-green7 hover:bg-green6"
-        @click="
-          login(loginForm.email, loginForm.password).then(() => {
-            router.push('/');
-          })
-        "
+        @click="handleLogin"
       >
         Log in
       </button>
@@ -63,11 +62,23 @@ import { storeToRefs } from 'pinia';
 import GoogleSignIn from './GoogleSignIn.vue';
 import GoogleButton from './GoogleButton.vue';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
 const router = useRouter();
 const { oauthLogin, login } = useStore();
 const { loginForm } = storeToRefs(useStore());
 const googleEnabled = process.env.VUE_APP_GOOGLE_ENABLED;
+const loginError = ref('');
+
+async function handleLogin(): Promise<void> {
+  loginError.value = '';
+  try {
+    await login(loginForm.value.email, loginForm.value.password);
+    router.push('/');
+  } catch (error: any) {
+    loginError.value = error.message || 'Invalid email or password';
+  }
+}
 
 function handleResponse(value: any): void {
   oauthLogin(value.googleUser.wc.id_token);

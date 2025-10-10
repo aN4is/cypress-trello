@@ -16,5 +16,6 @@ export const login = async function (this: any, email: string, password: string)
     })
     .catch(({ response }) => {
       this.showNotification(response.data, true);
+      throw new Error(response.data);
     });
 };

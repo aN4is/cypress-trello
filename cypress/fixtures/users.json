@@ -1,7 +1,11 @@
 {
   "testUser": {
-    "email": "test@example.com",
-    "password": "Test123!"
+    "email": "diyepet806@arqsis.com",
+    "password": "Q!w2e3r4"
+  },
+  "testUser2": {
+    "email": "dojebep948@ampdial.com",
+    "password": "Q!w2e3r4"
   },
   "adminUser": {
     "email": "admin@example.com",
