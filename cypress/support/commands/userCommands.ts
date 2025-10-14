@@ -13,7 +13,7 @@ Cypress.Commands.add('apiLogin', (email: string, password: string) => {
 });
 
 Cypress.Commands.add('ensureUserExists', (email: string, password: string) => {
-  cy.readFile('../../../../trelloapp/backend/data/database.json').then((db: any) => {
+  cy.readFile('../../../trelloapp/backend/data/database.json').then((db: any) => {
     const userExists = db.users.some((user: any) => user.email === email);
 
     if (!userExists) {
