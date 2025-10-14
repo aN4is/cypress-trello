@@ -38,6 +38,7 @@ declare global {
       // User commands
       signup(email: string, password: string): Chainable<unknown>;
       apiLogin(email: string, password: string): Chainable<unknown>;
+      ensureUserExists(email: string, password: string): Chainable<unknown>;
 
       // Data builder commands
       createBoardWithLists(

@@ -166,6 +166,7 @@ describe('Card Edge Cases - Regression Test', () => {
 
       cardDetailPage.toggleComplete();
       cardDetailPage.assertCompleted();
+      cardDetailPage.close();
 
       cy.reload();
       boardPage.assertBoardLoaded();

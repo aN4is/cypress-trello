@@ -11,6 +11,8 @@ describe('Login Flow - Authentication Tests', () => {
   describe('Successful Login', () => {
     it('should login with valid credentials', () => {
       cy.fixture('users').then((users) => {
+        cy.ensureUserExists(users.testUser.email, users.testUser.password);
+
         loginPage.login(users.testUser.email, users.testUser.password);
 
         homePage.assertHomePageVisible();

@@ -49,10 +49,11 @@ describe('List Edge Cases - Regression Test', () => {
 
     it('should handle list name with leading and trailing spaces', () => {
       const nameWithSpaces = '  List Name  ';
+      const expectedTrimmedName = 'List Name';
       boardPage.visit(boardId);
       boardPage.createList(nameWithSpaces);
 
-      boardPage.assertListExists(nameWithSpaces);
+      boardPage.assertListExists(expectedTrimmedName);
     });
   });
 
@@ -106,9 +107,9 @@ describe('List Edge Cases - Regression Test', () => {
       boardPage.assertBoardLoaded();
       boardPage.assertListCount(3);
 
-      cy.getByDataCy('list-name').eq(0).should('contain.text', 'First List');
-      cy.getByDataCy('list-name').eq(1).should('contain.text', 'Second List');
-      cy.getByDataCy('list-name').eq(2).should('contain.text', 'Third List');
+      cy.getByDataCy('list-name').eq(0).should('have.value', 'First List');
+      cy.getByDataCy('list-name').eq(1).should('have.value', 'Second List');
+      cy.getByDataCy('list-name').eq(2).should('have.value', 'Third List');
     });
   });
 

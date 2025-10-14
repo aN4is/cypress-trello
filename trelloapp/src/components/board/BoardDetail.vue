@@ -46,7 +46,7 @@
             autocomplete="off"
             name="board-title"
             @focus="selectInput($event)"
-            @change="state.patchBoard(state.board, { name: state.board.name })"
+            @change="updateBoardName"
             @keyup.enter="blurInput($event)"
             @keyup.esc="blurInput($event)"
           >
@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 import { blurInput } from '@/utils/blurInput';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { selectInput } from '@/utils/selectInput';
 import { useStore } from '@/store/store';
 import { useRoute } from 'vue-router';
@@ -106,9 +106,26 @@ const route = useRoute();
 const state = useStore();
 const inputActive = ref(false);
 const boardId = Number(route.params.board);
+const originalBoardName = ref('');
 state.getBoardDetail(boardId);
+
+watch(() => state.board.name, (newName) => {
+  if (newName && !originalBoardName.value) {
+    originalBoardName.value = newName;
+  }
+}, { immediate: true });
 const onClickAway = () => {
   inputActive.value = false;
+};
+
+const updateBoardName = () => {
+  const newName = state.board.name?.trim();
+  if (!newName) {
+    state.board.name = originalBoardName.value;
+    return;
+  }
+  originalBoardName.value = newName;
+  state.patchBoard(state.board, { name: newName });
 };
 </script>
 

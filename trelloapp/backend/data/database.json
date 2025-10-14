@@ -1,320 +1,33 @@
 {
   "boards": [
     {
-      "name": "Test Board",
+      "name": "Task Board",
       "user": 0,
       "starred": false,
-      "created": "2025-10-10",
-      "id": 1
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 2
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 3
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 4
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 5
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 6
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 7
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 8
-    },
-    {
-      "name": "Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 9
-    },
-    {
-      "name": "My Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 10
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 11
-    },
-    {
-      "name": "Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 12
-    },
-    {
-      "name": "My Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 13
-    },
-    {
-      "name": "Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 14
-    },
-    {
-      "name": "Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 15
-    },
-    {
-      "name": "Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 16
-    },
-    {
-      "name": "Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 17
-    },
-    {
-      "name": "private board - user 2 - dojebep948",
-      "user": 2,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 18
-    },
-    {
-      "name": "Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 19
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 20
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 21
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 22
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 23
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 24
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 25
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 26
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 27
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 28
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 29
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 30
-    },
-    {
-      "name": "My Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 31
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 32
-    },
-    {
-      "name": "Private Test Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 33
-    },
-    {
-      "name": "Private Test Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 34
-    },
-    {
-      "name": "Navigation Test",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 35
-    },
-    {
-      "name": "Private Test Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 36
-    },
-    {
-      "name": "Private Board - diyepet806@arqsis.com",
-      "user": 1,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 37
-    },
-    {
-      "name": "My Private Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-10",
-      "id": 38
-    }
-  ],
-  "cards": [
-    {
-      "order": 0,
-      "boardId": 18,
-      "listId": 2,
-      "name": "test card private",
-      "created": "2025-10-10",
-      "deadline": "2025-10-13",
-      "description": "",
-      "completed": false,
+      "created": "2025-10-14",
       "id": 1
     }
   ],
+  "cards": [],
   "lists": [
     {
       "boardId": 1,
-      "name": "列表 List 📋 Список",
-      "order": 0,
-      "created": "2025-10-10",
+      "name": "To Do",
+      "created": "2025-10-14",
       "id": 1
     },
     {
-      "boardId": 18,
-      "name": "test list private",
-      "order": 0,
-      "created": "2025-10-10",
+      "boardId": 1,
+      "name": "In Progress",
+      "created": "2025-10-14",
       "id": 2
     },
     {
-      "boardId": 18,
-      "name": "hopa",
-      "order": 1,
-      "created": "2025-10-10",
+      "boardId": 1,
+      "name": "Done",
+      "created": "2025-10-14",
       "id": 3
     }
   ],
-  "users": [
-    {
-      "email": "diyepet806@arqsis.com",
-      "password": "$2a$10$2L8aiOde2La0Izx1.8uKqeReFlvKCbuJiDT3CZz5L2SDIs7F6rX2S",
-      "welcomeEmail": false,
-      "id": 1
-    },
-    {
-      "email": "dojebep948@ampdial.com",
-      "password": "$2a$10$VlrRHwgGKci61OXOeSdyaukL12MGPgH0xs8r2rGtwxyBBe77fPdYq",
-      "welcomeEmail": false,
-      "id": 2
-    }
-  ]
+  "users": []
 }

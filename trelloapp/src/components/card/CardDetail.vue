@@ -17,7 +17,7 @@
             <Board class="-mb-1 -ml-8 w-5 h-5 text-gray-800 fill-current stroke-current" />
           </div>
           <input
-            v-model="activeCard.name"
+            v-model="cardTitleInput"
             v-click-away="clickAwayCardName"
             class="py-1 focus:px-1.5 w-full font-bold bg-gray2 focus:bg-white rounded-sm cursor-pointer"
             data-cy="card-detail-title"
@@ -25,7 +25,7 @@
               selectInput($event);
               cardNameInputActive = true;
             "
-            @change="patchCard(activeCard, { name: activeCard.name })"
+            @blur="updateCardName"
             @keyup.enter="
               blurInput($event);
               cardNameInputActive = false;
@@ -180,6 +180,7 @@
       <div class="grid col-span-2 gap-y-2 content-start">
         <div class="grid self-end place-content-center place-self-end w-8 h-8 hover:bg-gray5 cursor-pointer">
           <Cross
+            data-cy="card-detail-close"
             class="w-6 h-6 text-gray-600 fill-current"
             @click="
               showCardModule(activeCard.id, false);
@@ -220,7 +221,7 @@
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { blurInput } from '@/utils/blurInput';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import { selectInput } from '@/utils/selectInput';
 import { useStore } from '@/store/store';
 import Attachment from '@/assets/icons/attachment.svg';
@@ -249,6 +250,17 @@ const showDate = ref(false);
 const cardNameInputActive = ref(false);
 const descriptionInputActive = ref(false);
 const date = ref(new Date());
+const cardTitleInput = ref(activeCard.value.name);
+
+const updateCardName = async () => {
+  const trimmedName = cardTitleInput.value.trim();
+  if (!trimmedName) {
+    cardTitleInput.value = activeCard.value.name;
+    await nextTick();
+    return;
+  }
+  patchCard(activeCard.value, { name: trimmedName });
+};
 
 const clickAwayCardName = () => {
   cardNameInputActive.value = false;
