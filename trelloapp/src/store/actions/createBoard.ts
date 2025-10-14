@@ -2,7 +2,7 @@ import Board from '@/typings/board';
 import axios from 'axios';
 
 export const createBoard = async function (this: any, name: Board['name']) {
-  if (!name) {
+  if (!name || !name.trim()) {
     return;
   }
   const data = await axios

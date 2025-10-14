@@ -20,7 +20,11 @@ export abstract class BasePage {
   }
 
   protected clearAndType(selector: string, text: string) {
-    return this.getElement(selector).clear().type(text);
+    const element = this.getElement(selector).clear();
+    if (text) {
+      return element.type(text);
+    }
+    return element;
   }
 
   protected assertVisible(selector: string) {

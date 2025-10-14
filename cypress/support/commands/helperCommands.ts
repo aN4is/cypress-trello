@@ -19,3 +19,8 @@ Cypress.Commands.add('deleteAllCards', () => {
 Cypress.Commands.add('deleteAllUsers', () => {
   cy.request('DELETE', '/api/users');
 });
+
+// UI Helper Commands
+Cypress.Commands.add('getByDataCy', (dataCy: string) => {
+  return cy.get(`[data-cy="${dataCy}"]`);
+});

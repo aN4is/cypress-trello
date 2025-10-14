@@ -64,12 +64,14 @@ const listTitle = ref('');
 const listCreate = ref();
 
 const addList = () => {
-  if (!listTitle.value) {
+  const trimmedTitle = listTitle.value.trim();
+
+  if (!trimmedTitle) {
     return;
   }
 
   const boardId = board.value.id;
-  const name = listTitle.value;
+  const name = trimmedTitle;
 
   createList(boardId, name);
 

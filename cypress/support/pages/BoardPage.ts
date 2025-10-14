@@ -25,8 +25,12 @@ export class BoardPage extends BasePage {
   }
 
   changeBoardTitle(newTitle: string): this {
-    this.clearAndType(this.boardTitle, newTitle);
-    this.getElement(this.boardTitle).blur();
+    const element = this.getElement(this.boardTitle);
+    element.clear();
+    if (newTitle) {
+      element.type(newTitle);
+    }
+    element.blur();
     return this;
   }
 
@@ -46,14 +50,28 @@ export class BoardPage extends BasePage {
   }
 
   createList(listName: string): this {
-    // this.getByDataCy('new-list').click();
+    // Wait for page to be ready, then click create-list if it's visible
+    cy.wait(100); // Small wait for DOM to stabilize
+    cy.get('body').then(($body) => {
+      const $createButton = $body.find('[data-cy="create-list"]:visible');
+      if ($createButton.length > 0) {
+        cy.log('Clicking create-list button to reveal input');
+        cy.get('[data-cy="create-list"]').click();
+      } else {
+        cy.log('create-list button not visible, checking if input exists');
+      }
+    });
+
     this.getByDataCy('add-list-input').type(listName);
     this.getByDataCy('add-list').click();
     return this;
   }
 
   assertListExists(listName: string): this {
-    this.getByDataCy('list-name').should('contain.text', listName);
+    this.getByDataCy('list-name').should(($inputs) => {
+      const values = $inputs.map((i, el) => Cypress.$(el).val()).get();
+      expect(values).to.include(listName);
+    });
     return this;
   }
 

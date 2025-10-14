@@ -5,6 +5,9 @@ import Card from 'trelloapp/src/typings/card';
 declare global {
   namespace Cypress {
     interface Chainable {
+      // UI Helper commands
+      getByDataCy(dataCy: string): Chainable<JQuery<HTMLElement>>;
+
       // Database reset commands
       resetDatabase(): Chainable<void>;
       deleteAllBoards(): Chainable<void>;
@@ -35,6 +38,7 @@ declare global {
       // User commands
       signup(email: string, password: string): Chainable<unknown>;
       apiLogin(email: string, password: string): Chainable<unknown>;
+      ensureUserExists(email: string, password: string): Chainable<unknown>;
 
       // Data builder commands
       createBoardWithLists(

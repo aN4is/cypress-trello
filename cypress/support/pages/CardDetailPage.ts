@@ -60,6 +60,7 @@ export class CardDetailPage extends BasePage {
 
   close(): this {
     this.clickElement(this.closeButton);
+    this.getByDataCy('card-detail-backdrop').should('not.exist');
     return this;
   }
 

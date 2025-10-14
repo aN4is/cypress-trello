@@ -17,6 +17,7 @@
     />
     <div>
       <SaveButton
+        data-cy="new-card-submit"
         buttontext="Add card"
         @click="addCard"
       />
@@ -55,13 +56,14 @@ const { createCard } = useStore();
 let cardTitle = ref('');
 
 const addCard = () => {
-  if (!cardTitle.value) {
+  const trimmedTitle = cardTitle.value.trim();
+  if (!trimmedTitle) {
     return;
   }
   createCard({
     boardId: board.value.id,
     listId: props.list.id,
-    name: cardTitle.value,
+    name: trimmedTitle,
   });
   cardTitle.value = '';
 };

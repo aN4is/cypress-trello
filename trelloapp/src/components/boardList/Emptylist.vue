@@ -31,7 +31,9 @@ const router = useRouter();
 const newBoardTitle = ref('');
 const { createBoard } = useStore();
 const redirectToNewBoard = async () => {
-  const { id } = await createBoard(newBoardTitle.value);
-  router.push(`/board/${id}`);
+  const board = await createBoard(newBoardTitle.value);
+  if (board?.id) {
+    router.push(`/board/${board.id}`);
+  }
 };
 </script>
