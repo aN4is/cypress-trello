@@ -1,0 +1,3 @@
+# Force LF line endings for lock files to ensure Docker compatibility
+package-lock.json text eol=lf
+**/package-lock.json text eol=lf
