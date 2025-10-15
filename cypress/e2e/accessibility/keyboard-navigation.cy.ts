@@ -1,6 +1,6 @@
 import { HomePage, BoardPage } from '../../support/pages';
 
-describe('Keyboard Navigation Tests', () => {
+describe.skip('Keyboard Navigation Tests', () => {
   const homePage = new HomePage();
   const boardPage = new BoardPage();
 

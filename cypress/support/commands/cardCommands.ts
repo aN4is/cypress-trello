@@ -6,6 +6,13 @@ Cypress.Commands.add('createCard', (boardId: number, listId: number, cardName: s
   });
 });
 
+// Simplified card creation that only requires listId
+Cypress.Commands.add('createCardAPI', (listId: number, cardName: string) => {
+  return cy.request('POST', '/api/cards', { listId, name: cardName }).then((response) => {
+    return response.body;
+  });
+});
+
 Cypress.Commands.add(
   'updateCard',
   (cardId: number, updates: { name?: string; completed?: boolean; listId?: number }) => {
