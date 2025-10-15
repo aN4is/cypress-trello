@@ -1,3 +1,5 @@
+import Board from '../../../trelloapp/src/typings/board';
+
 export {};
 // API Helper Commands for data setup and teardown
 Cypress.Commands.add('resetDatabase', () => {
@@ -23,4 +25,19 @@ Cypress.Commands.add('deleteAllUsers', () => {
 // UI Helper Commands
 Cypress.Commands.add('getByDataCy', (dataCy: string) => {
   return cy.get(`[data-cy="${dataCy}"]`);
+});
+
+// Visual Test Helper Commands
+Cypress.Commands.add('setupBoardForVisualTest', (boardName: string) => {
+  return cy.createBoard(boardName).then((board: Board) => {
+    cy.visit(`/board/${board.id}`);
+    cy.getByDataCy('board-detail').should('be.visible');
+    return cy.wrap(board);
+  });
+});
+
+Cypress.Commands.add('markCardComplete', (cardId: number): void => {
+  cy.request('PATCH', `/api/cards/${cardId}`, {
+    completed: true,
+  });
 });

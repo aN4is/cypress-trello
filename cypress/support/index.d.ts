@@ -8,6 +8,10 @@ declare global {
       // UI Helper commands
       getByDataCy(dataCy: string): Chainable<JQuery<HTMLElement>>;
 
+      // Visual Test Helper commands
+      setupBoardForVisualTest(boardName: string): Chainable<Board>;
+      markCardComplete(cardId: number): Chainable<void>;
+
       // Database reset commands
       resetDatabase(): Chainable<void>;
       deleteAllBoards(): Chainable<void>;

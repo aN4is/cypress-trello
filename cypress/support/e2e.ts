@@ -14,10 +14,9 @@
 // ***********************************************************
 
 /// <reference types="cypress" />
-// import './index.d.ts';
 
-// Applitools Eyes commands (commented out - enable if you have API key)
-// import '@applitools/eyes-cypress/commands'
+// Applitools Eyes commands
+import '@applitools/eyes-cypress/commands';
 
 // Import custom commands
 import './commands';

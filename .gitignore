@@ -6,7 +6,6 @@ cypress/screenshots/
 cypress/videos/
 cypress/downloads/
 .applitools/
-applitools.config.js
 
 # Logs
 *.log
@@ -18,6 +17,7 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
+cypress.env.json
 
 # System files
 .DS_Store

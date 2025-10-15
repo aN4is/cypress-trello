@@ -2,9 +2,9 @@ name: Docker E2E Pipeline
 
 on:
   push:
-    branches: [main, develop]
+    branches: [ main ]
   pull_request:
-    branches: [main, develop]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.ref }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json', 'trelloapp/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
@@ -61,6 +61,17 @@ jobs:
             --name trello-app \
             -p 3000:3000 \
             trello-app:latest
+
+      - name: Wait for app and check logs
+        run: |
+          echo "Waiting for app to start..."
+          sleep 10
+          echo "=== Docker container status ==="
+          docker ps -a | grep trello-app
+          echo "=== Docker logs ==="
+          docker logs trello-app
+          echo "=== Checking if port 3000 is listening ==="
+          docker exec trello-app ss -tulpn | grep 3000 || echo "Port 3000 not listening yet"
 
       # The Cypress action has a built-in wait-on feature that is more robust.
       - name: Run Cypress smoke tests
@@ -121,7 +132,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.ref }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json', 'trelloapp/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
@@ -202,7 +213,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.ref }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json', 'trelloapp/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
@@ -261,3 +272,85 @@ jobs:
           docker logs trello-app || true
           docker stop trello-app || true
           docker rm trello-app || true
+  # ----------------------------------------------------------------
+  # JOB 4: Run Visual Tests with Applitools
+  # ----------------------------------------------------------------
+  visual_tests:
+    name: Visual Tests (Applitools)
+    runs-on: ubuntu-latest
+    needs: smoke_tests
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json', 'trelloapp/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build and load Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true
+          tags: trello-app:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Start Trello app container
+        run: |
+          docker run \
+            -d \
+            --name trello-app \
+            -p 3000:3000 \
+            trello-app:latest
+
+      - name: Run Cypress visual tests with Applitools
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          spec: cypress/e2e/visual/**/*.cy.ts
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
+        env:
+          CYPRESS_baseUrl: http://localhost:3000
+          APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
+
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-screenshots
+          path: cypress/screenshots
+          retention-days: 7
+
+      - name: Upload videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-videos
+          path: cypress/videos
+          retention-days: 7
+
+      - name: Cleanup Trello app container
+        if: always()
+        run: |
+          echo "Stopping and removing the Docker container..."
+          docker logs trello-app || true
+          docker stop trello-app || true
+          docker rm trello-app || true
+
