@@ -6,7 +6,6 @@ cypress/screenshots/
 cypress/videos/
 cypress/downloads/
 .applitools/
-trelloapp/backend/data/database.json
 
 # Logs
 *.log
