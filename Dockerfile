@@ -14,9 +14,6 @@ WORKDIR /app
 # Copy root package files
 COPY package*.json ./
 
-# Update npm to match local development version
-RUN npm install -g npm@11
-
 # Install root dependencies (including devDependencies for Cypress)
 RUN npm ci
 
