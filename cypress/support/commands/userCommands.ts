@@ -12,9 +12,19 @@ Cypress.Commands.add('apiLogin', (email: string, password: string) => {
   });
 });
 
+interface DatabaseUser {
+  email: string;
+  [key: string]: unknown;
+}
+
+interface Database {
+  users: DatabaseUser[];
+  [key: string]: unknown;
+}
+
 Cypress.Commands.add('ensureUserExists', (email: string, password: string) => {
-  cy.readFile('trelloapp/backend/data/database.json').then((db: any) => {
-    const userExists = db.users.some((user: any) => user.email === email);
+  cy.readFile('trelloapp/backend/data/database.json').then((db: Database) => {
+    const userExists = db.users.some((user: DatabaseUser) => user.email === email);
 
     if (!userExists) {
       cy.log(`User ${email} does not exist in database, signing up...`);

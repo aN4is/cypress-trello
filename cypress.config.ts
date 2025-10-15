@@ -25,8 +25,18 @@ export default eyesPlugin(
         runMode: 2,
         openMode: 0,
       },
-      setupNodeEvents(on, config) {
-        // Additional event listeners can be added here
+      setupNodeEvents(on) {
+        // Accessibility testing task for terminal logs
+        on('task', {
+          log(message) {
+            console.log(message);
+            return null;
+          },
+          table(message) {
+            console.table(message);
+            return null;
+          },
+        });
       },
     },
   })

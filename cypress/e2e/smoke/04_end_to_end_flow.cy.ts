@@ -24,13 +24,13 @@ describe('End-to-End Flow - Smoke Test', () => {
 
         // Count total cards
         const totalCards = boardData.lists.reduce(
-          (sum: number, list: any) => sum + list.cards.length,
+          (sum: number, list: { listName: string; cards: string[] }) => sum + list.cards.length,
           0
         );
         boardPage.assertCardCount(totalCards);
 
         // Verify specific cards exist
-        boardData.lists.forEach((list: any) => {
+        boardData.lists.forEach((list: { listName: string; cards: string[] }) => {
           list.cards.forEach((card: string) => {
             boardPage.assertCardExists(card);
           });

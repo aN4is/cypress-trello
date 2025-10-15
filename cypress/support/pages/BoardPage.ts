@@ -51,7 +51,7 @@ export class BoardPage extends BasePage {
 
   createList(listName: string): this {
     // Wait for page to be ready, then click create-list if it's visible
-    cy.wait(100); // Small wait for DOM to stabilize
+    cy.get('body').should('be.visible');
     cy.get('body').then(($body) => {
       const $createButton = $body.find('[data-cy="create-list"]:visible');
       if ($createButton.length > 0) {

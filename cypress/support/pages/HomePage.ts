@@ -16,6 +16,11 @@ export class HomePage extends BasePage {
     return this;
   }
 
+  clickCreateBoard(): this {
+    this.getByDataCy('create-board').click();
+    return this;
+  }
+
   createBoard(boardName: string): this {
     this.getByDataCy('create-board').click();
     this.getByDataCy('new-board-input').type(boardName);
