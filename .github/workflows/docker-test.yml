@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json', 'trelloapp/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
@@ -121,7 +121,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json', 'trelloapp/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
@@ -202,7 +202,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json', 'trelloapp/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
@@ -282,7 +282,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('package-lock.json', 'trelloapp/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
