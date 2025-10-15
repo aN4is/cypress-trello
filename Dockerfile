@@ -1,4 +1,5 @@
 # Use official Node.js LTS image
+# npm --version >> 10.8.2
 FROM node:20-slim AS base
 
 # Install system dependencies
