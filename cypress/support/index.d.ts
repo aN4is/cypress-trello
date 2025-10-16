@@ -34,7 +34,7 @@ declare global {
 
       // Card commands
       createCard(boardId: number, listId: number, cardName: string): Chainable<Card>;
-      createCardAPI(listId: number, cardName: string): Chainable<Card>;
+      createCardAPI(boardId: number, listId: number, cardName: string): Chainable<Card>;
       updateCard(
         cardId: number,
         updates: { name?: string; completed?: boolean; listId?: number }

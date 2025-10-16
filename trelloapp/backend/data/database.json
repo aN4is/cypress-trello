@@ -1,33 +1,6 @@
 {
-  "boards": [
-    {
-      "name": "Builder Board",
-      "user": 0,
-      "starred": false,
-      "created": "2025-10-15",
-      "id": 1
-    }
-  ],
+  "boards": [],
   "cards": [],
-  "lists": [
-    {
-      "boardId": 1,
-      "name": "To Do",
-      "created": "2025-10-15",
-      "id": 1
-    },
-    {
-      "boardId": 1,
-      "name": "In Progress",
-      "created": "2025-10-15",
-      "id": 2
-    },
-    {
-      "boardId": 1,
-      "name": "Done",
-      "created": "2025-10-15",
-      "id": 3
-    }
-  ],
+  "lists": [],
   "users": []
 }

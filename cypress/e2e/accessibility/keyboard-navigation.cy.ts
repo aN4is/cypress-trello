@@ -132,7 +132,7 @@ describe.skip('Keyboard Navigation Tests', () => {
 
     it('should open card detail using Enter key', () => {
       boardPage.createList('Detail List');
-      cy.createCardAPI(Cypress.env('lastListId'), 'Detail Card');
+      cy.createCardAPI(boardId, Cypress.env('lastListId'), 'Detail Card');
       cy.reload();
       cy.get('[data-cy="card"]').should('be.visible');
 
@@ -143,7 +143,7 @@ describe.skip('Keyboard Navigation Tests', () => {
 
     it('should close card detail using ESC key', () => {
       boardPage.createList('ESC List');
-      cy.createCardAPI(Cypress.env('lastListId'), 'ESC Card');
+      cy.createCardAPI(boardId, Cypress.env('lastListId'), 'ESC Card');
       cy.reload();
       cy.get('[data-cy="card"]').should('be.visible');
 
