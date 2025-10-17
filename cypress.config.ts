@@ -25,6 +25,15 @@ export default eyesPlugin(
         runMode: 2,
         openMode: 0,
       },
+      // Mochawesome reporter configuration
+      reporter: 'mochawesome',
+      reporterOptions: {
+        reportDir: 'cypress/reports/mochawesome',
+        overwrite: false,
+        html: false,
+        json: true,
+        timestamp: 'mmddyyyy_HHMMss',
+      },
       setupNodeEvents(on) {
         // Accessibility testing task for terminal logs
         on('task', {
