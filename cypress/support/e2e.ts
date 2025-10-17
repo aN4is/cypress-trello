@@ -18,5 +18,8 @@
 // Applitools Eyes commands
 import '@applitools/eyes-cypress/commands';
 
+// Import cypress-axe
+import 'cypress-axe';
+
 // Import custom commands
 import './commands';

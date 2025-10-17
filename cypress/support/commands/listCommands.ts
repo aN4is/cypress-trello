@@ -2,6 +2,15 @@ export {};
 // List API commands
 Cypress.Commands.add('createList', (boardId: number, listName: string) => {
   return cy.request('POST', '/api/lists', { boardId, name: listName }).then((response) => {
+    Cypress.env('lastListId', response.body.id);
+    return response.body;
+  });
+});
+
+// Alias for createList to match test expectations
+Cypress.Commands.add('createListAPI', (boardId: number, listName: string) => {
+  return cy.request('POST', '/api/lists', { boardId, name: listName }).then((response) => {
+    Cypress.env('lastListId', response.body.id);
     return response.body;
   });
 });

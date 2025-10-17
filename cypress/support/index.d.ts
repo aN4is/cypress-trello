@@ -27,12 +27,14 @@ declare global {
 
       // List commands
       createList(boardId: number, listName: string): Chainable<List>;
+      createListAPI(boardId: number, listName: string): Chainable<List>;
       getLists(boardId?: number): Chainable<List[]>;
       deleteList(listId: number): Chainable<void>;
       updateList(listId: number, updates: { name?: string }): Chainable<List>;
 
       // Card commands
       createCard(boardId: number, listId: number, cardName: string): Chainable<Card>;
+      createCardAPI(boardId: number, listId: number, cardName: string): Chainable<Card>;
       updateCard(
         cardId: number,
         updates: { name?: string; completed?: boolean; listId?: number }

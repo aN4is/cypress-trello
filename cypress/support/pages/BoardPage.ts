@@ -51,6 +51,7 @@ export class BoardPage extends BasePage {
 
   createList(listName: string): this {
     // Wait for page to be ready, then click create-list if it's visible
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100); // Small wait for DOM to stabilize
     cy.get('body').then(($body) => {
       const $createButton = $body.find('[data-cy="create-list"]:visible');
