@@ -280,7 +280,7 @@ Changes details of a card `cardId`
 ---
 
 **`DELETE`** `/api/cards/{cardId}`
-Changes details of a card `cardId`
+Deletes a card `cardId`
 
 ---
 
