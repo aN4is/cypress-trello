@@ -102,6 +102,24 @@ jobs:
           path: cypress/videos
           retention-days: 7
 
+      - name: Merge Mochawesome reports
+        if: always()
+        run: npm run report:merge
+        continue-on-error: true
+
+      - name: Generate Mochawesome HTML report
+        if: always()
+        run: npm run report:generate
+        continue-on-error: true
+
+      - name: Upload Mochawesome report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-test-report-${{ matrix.browser }}
+          path: cypress/reports/mochawesome
+          retention-days: 30
+
       # This step will run even if the Cypress tests fail, ensuring cleanup.
       - name: Cleanup Trello app container
         if: always()
@@ -184,6 +202,24 @@ jobs:
           path: cypress/videos
           retention-days: 7
 
+      - name: Merge Mochawesome reports
+        if: always()
+        run: npm run report:merge
+        continue-on-error: true
+
+      - name: Generate Mochawesome HTML report
+        if: always()
+        run: npm run report:generate
+        continue-on-error: true
+
+      - name: Upload Mochawesome report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: regression-test-report
+          path: cypress/reports/mochawesome
+          retention-days: 30
+
       - name: Cleanup Trello app container
         if: always()
         run: |
@@ -265,6 +301,24 @@ jobs:
           path: cypress/videos
           retention-days: 7
 
+      - name: Merge Mochawesome reports
+        if: always()
+        run: npm run report:merge
+        continue-on-error: true
+
+      - name: Generate Mochawesome HTML report
+        if: always()
+        run: npm run report:generate
+        continue-on-error: true
+
+      - name: Upload Mochawesome report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: auth-test-report
+          path: cypress/reports/mochawesome
+          retention-days: 30
+
       - name: Cleanup Trello app container
         if: always()
         run: |
@@ -344,6 +398,24 @@ jobs:
           name: accessibility-videos
           path: cypress/videos
           retention-days: 7
+
+      - name: Merge Mochawesome reports
+        if: always()
+        run: npm run report:merge
+        continue-on-error: true
+
+      - name: Generate Mochawesome HTML report
+        if: always()
+        run: npm run report:generate
+        continue-on-error: true
+
+      - name: Upload Mochawesome report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessibility-test-report
+          path: cypress/reports/mochawesome
+          retention-days: 30
 
       - name: Cleanup Trello app container
         if: always()
@@ -426,6 +498,24 @@ jobs:
           name: visual-videos
           path: cypress/videos
           retention-days: 7
+
+      - name: Merge Mochawesome reports
+        if: always()
+        run: npm run report:merge
+        continue-on-error: true
+
+      - name: Generate Mochawesome HTML report
+        if: always()
+        run: npm run report:generate
+        continue-on-error: true
+
+      - name: Upload Mochawesome report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-test-report
+          path: cypress/reports/mochawesome
+          retention-days: 30
 
       - name: Cleanup Trello app container
         if: always()
