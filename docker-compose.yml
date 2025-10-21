@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
 
   cypress:
-    image: cypress/included:13.6.0
+    image: cypress/included:15.3.0
     container_name: cypress-tests
     depends_on:
       trello-app:
