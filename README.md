@@ -81,6 +81,7 @@ npx cypress run --record --parallel --ci-build-id $BUILD_ID
 ## Application Under Test
 
 Bundled as a submodule is a clone of the popular [Trello app](https://trello.com).
+Developed by Filip Hric.
 
 **Features**:
 
