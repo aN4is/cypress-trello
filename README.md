@@ -1,10 +1,39 @@
-# Cypress Trello Clone Project
+# Cypress Trello Test Automation
 
-This project is based on the Introduction to Cypress course provided by Test Automation University. It has been modified and personalized to serve as a learning tool and experimentation platform for test automation.
+Comprehensive test automation suite for a Trello clone application with advanced Cypress testing practices.
 
-### Running Tests
+## Overview
 
-#### Local Testing
+This test suite demonstrates professional E2E testing practices including:
+
+- **Smoke Tests**: Critical path validation
+- **Regression Tests**: Full feature coverage
+- **Authentication Tests**: Login and signup flows
+- **Visual Regression**: Screenshot-based testing with Applitools
+- **Accessibility Tests**: WCAG compliance with cypress-axe
+- **API Tests**: Backend endpoint validation
+- **Reporting**: Enhanced test reports with Mochawesome
+
+## Test Structure
+
+```
+cypress/
+├── e2e/
+│   ├── smoke/              # Critical path tests
+│   ├── regression/         # Full regression suite
+│   ├── auth/              # Authentication flows
+│   └── accessibility/     # A11y tests
+├── fixtures/              # Test data
+├── support/
+│   ├── commands.ts        # Custom commands
+│   ├── e2e.ts            # Global config
+│   └── page-objects/     # Page object models
+└── reports/              # Mochawesome reports
+```
+
+## Running Tests
+
+### Local Testing
 
 ```bash
 # Install dependencies
@@ -13,14 +42,18 @@ npm install
 # Open Cypress Test Runner
 npm run cy:open
 
-# Run tests headlessly
+# Run all tests headlessly
 npm run cy:run
 
 # Run specific test suite
 npx cypress run --spec "cypress/e2e/smoke/**/*.cy.ts"
+
+# Run with specific browser
+npx cypress run --browser chrome
+npx cypress run --browser firefox
 ```
 
-#### Docker Testing
+### Docker Testing
 
 ```bash
 # Build and run with Docker Compose
@@ -38,33 +71,180 @@ docker build -t trello-app .
 docker run -d -p 3000:3000 --name trello-app trello-app
 ```
 
-## Trello clone app
+### Parallel Execution
 
-Bundled as a submodule is an app that is a clone of a popular [Trello app](https://trello.com). You can create boards, lists and cards. You can drag and drop cards between lists or even upload a picture to the card detail. There’s also a very simple signup and login which will allow you to create private boards
+```bash
+# Run tests in parallel (requires Cypress Dashboard or CI)
+npx cypress run --record --parallel --ci-build-id $BUILD_ID
+```
+
+## Application Under Test
+
+Bundled as a submodule is a clone of the popular [Trello app](https://trello.com).
+
+**Features**:
+
+- Create boards, lists and cards
+- Drag and drop cards between lists
+- Upload pictures to card details
+- User signup and login
+- Private boards per user
 
 ### Installation
 
-Super simple
+```bash
+# Install dependencies
+npm install
 
-1. `npm install`
-2. `npm start`
-3. Open your browser on `http://localhost:3000`
+# Start application
+npm start
+
+# Access at
+http://localhost:3000
+```
 
 ### Database
 
-The application uses a json file for a database which you can find in `trelloapp/backend/data/database.json`. Uploaded files are in `trelloapp/backend/data/uploaded` folder.
+The application uses a JSON file for persistence:
 
-### Application utilities
+- Database: `trelloapp/backend/data/database.json`
+- Uploads: `trelloapp/backend/data/uploaded`
 
-By typing `F2` key in the application, a small toolset appears that will allow you to reset your application to a desired state. You can delete boards, lists, cards, users or everything. This is useful when playing with the application manually.
+### Application Utilities
 
-# API documentation
+Press `F2` in the application to access development utilities:
+
+- Reset application state
+- Delete boards, lists, cards, users
+- Useful for manual testing and debugging
+
+## Test Reporting
+
+### Mochawesome Reports
+
+Test results are generated with Mochawesome after each run:
+
+```bash
+# Run tests with reporting
+npm run cy:run
+
+# View report
+open cypress/reports/index.html
+```
+
+**Report includes**:
+
+- Test execution summary
+- Pass/fail statistics
+- Screenshots on failure
+- Execution duration
+- Test categorization by suite
+
+### Applitools Visual Testing
+
+Visual regression tests use Applitools Eyes:
+
+```bash
+# Set Applitools API key
+export APPLITOOLS_API_KEY=your_key_here
+
+# Run visual tests
+npx cypress run --spec "cypress/e2e/visual/**/*.cy.ts"
+```
+
+## Dependencies
+
+### Core Testing
+
+- `cypress` - E2E test framework
+- `typescript` - Type safety
+- `@cypress/webpack-preprocessor` - TypeScript support
+
+### Enhancements
+
+- `mochawesome` - Test reporting
+- `cypress-axe` - Accessibility testing
+- `@applitools/eyes-cypress` - Visual regression
+- `cypress-file-upload` - File upload support
+
+### Installation
+
+```bash
+# All dependencies
+npm install
+
+# Production dependencies only
+npm install --production
+```
+
+## Best Practices
+
+1. **Use page objects** for maintainable test code
+2. **Validate API responses** before UI testing
+3. **Reset state** before each test using API calls
+4. **Use custom commands** for common operations
+5. **Tag tests** appropriately (smoke, regression, etc.)
+6. **Run accessibility tests** on key user flows
+7. **Capture screenshots** on test failures
+
+## CI/CD Integration
+
+### GitHub Actions Example
+
+```yaml
+- name: Run Cypress tests
+  uses: cypress-io/github-action@v5
+  with:
+    start: npm start
+    wait-on: 'http://localhost:3000'
+    browser: chrome
+    spec: cypress/e2e/**/*.cy.ts
+
+- name: Upload test results
+  uses: actions/upload-artifact@v3
+  if: always()
+  with:
+    name: cypress-reports
+    path: cypress/reports/
+```
+
+## Troubleshooting
+
+### Tests timing out
+
+Increase timeout in `cypress.config.ts`:
+
+```typescript
+defaultCommandTimeout: 10000,
+requestTimeout: 10000,
+```
+
+### Application not starting
+
+Check if port 3000 is available:
+
+```bash
+lsof -i :3000
+kill -9 <PID>
+```
+
+### Visual tests failing
+
+Update baselines in Applitools dashboard or locally:
+
+```bash
+npx eyes-storybook --update-baseline
+```
+
+## API Documentation
+
+### Boards
 
 **`GET`** `/api/boards`
 
 Returns all boards
 
-**example (unauthorized user):**
+**Example response (unauthorized user):**
 
 ```json
 [
@@ -85,7 +265,7 @@ Returns all boards
 ]
 ```
 
-**example (authorized user):**
+**Example response (authorized user):**
 
 ```json
 [
@@ -113,13 +293,11 @@ Returns all boards
 ]
 ```
 
----
-
 **`POST`** `/api/boards`
 
 Creates a new board
 
-**example request:**
+**Example request:**
 
 ```json
 {
@@ -127,7 +305,7 @@ Creates a new board
 }
 ```
 
-**example response:**
+**Example response:**
 
 ```json
 {
@@ -139,13 +317,11 @@ Creates a new board
 }
 ```
 
----
-
 **`GET`** `/api/boards/{boardId}`
 
 Returns details of a board with given `boardId`
 
-**example response:**
+**Example response:**
 
 ```json
 {
@@ -157,13 +333,11 @@ Returns details of a board with given `boardId`
 }
 ```
 
----
-
 **`PATCH`** `/api/boards/{boardId}`
 
 Changes details of a board with given `boardId`. `starred` and `name` attributes can be changed
 
-**example request:**
+**Example request:**
 
 ```json
 {
@@ -172,18 +346,17 @@ Changes details of a board with given `boardId`. `starred` and `name` attributes
 }
 ```
 
----
-
 **`DELETE`** `/api/boards/{boardId}`
 
 Deletes a board with given `boardId`
 
----
+### Lists
 
 **`GET`** `/api/lists`
 
 Returns all lists
-**example response**
+
+**Example response:**
 
 ```json
 [
@@ -204,19 +377,15 @@ Returns all lists
 ]
 ```
 
----
-
 **`GET`** `/api/lists?boardId={boardId}`
 
 Returns all lists with given `boardId`
-
----
 
 **`POST`** `/api/lists`
 
 Creates a new list
 
-**example request**
+**Example request:**
 
 ```json
 {
@@ -226,13 +395,11 @@ Creates a new list
 
 ```
 
----
-
 **`PATCH`** `/api/lists/{listId}`
 
-Changes details of a list with given `listId`.
+Changes details of a list with given `listId`
 
-**example request**
+**Example request:**
 
 ```json
 {
@@ -240,19 +407,17 @@ Changes details of a list with given `listId`.
 }
 ```
 
----
-
 **`DELETE`** `/api/lists/{listId}`
 
-Deletes a list with given `listId`.
+Deletes a list with given `listId`
 
----
+### Cards
 
 **`POST`** `/api/cards`
 
 Creates a new card
 
-**example request**
+**Example request:**
 
 ```json
 {
@@ -263,13 +428,11 @@ Creates a new card
 
 ```
 
----
-
 **`PATCH`** `/api/cards/{cardId}`
 
 Changes details of a card `cardId`
 
-**example request**
+**Example request:**
 
 ```json
 {
@@ -277,18 +440,17 @@ Changes details of a card `cardId`
 }
 ```
 
----
-
 **`DELETE`** `/api/cards/{cardId}`
+
 Deletes a card `cardId`
 
----
+### Users & Authentication
 
 **`GET`** `/api/users`
 
 Returns information for the current user
 
-**example response**
+**Example response:**
 
 ```json
 {
@@ -300,13 +462,11 @@ Returns information for the current user
 }
 ```
 
----
-
 **`POST`** `/api/signup`
 
 Creates a new user
 
-**example request**
+**Example request:**
 
 ```json
 {
@@ -315,13 +475,11 @@ Creates a new user
 }
 ```
 
----
-
 **`POST`** `/api/welcomeemail`
 
 Sends a request for a welcome email
 
-**example request:**
+**Example request:**
 
 ```json
 {
@@ -329,13 +487,11 @@ Sends a request for a welcome email
 }
 ```
 
----
-
 **`POST`** `/api/login`
 
 Logs in a user
 
-**example request**
+**Example request:**
 
 ```json
 {
@@ -344,38 +500,26 @@ Logs in a user
 }
 ```
 
----
+### Database State Management
 
-## Special endpoints for handling database state
+Special endpoints for handling database state during testing
 
----
-
-**`POST`** /api/reset
+**`POST`** `/api/reset`
 
 Deletes all boards, lists, cards and users
 
----
-
-**`DELETE`** /api/boards
+**`DELETE`** `/api/boards`
 
 Deletes all boards, lists and cards
 
----
-
-**`DELETE`** /api/lists
+**`DELETE`** `/api/lists`
 
 Deletes all lists and cards
 
----
-
-**`DELETE`** /api/cards
+**`DELETE`** `/api/cards`
 
 Deletes all cards
 
----
-
-**`DELETE`** /api/users
+**`DELETE`** `/api/users`
 
 Deletes all users
-
----
