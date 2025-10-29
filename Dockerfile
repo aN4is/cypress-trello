@@ -30,8 +30,7 @@ USER node
 
 # Copy dependency files first to leverage Docker layer caching
 # Package manifests change less frequently than source code
-# --link creates independent layers for better cache reuse
-COPY --link --chown=node:node package*.json ./
+COPY --chown=node:node package*.json ./
 
 # Install root dependencies with cache mount for faster rebuilds
 # Cache mount persists npm cache between builds
@@ -42,7 +41,7 @@ RUN --mount=type=cache,target=/home/node/.npm,uid=1000,gid=1000,sharing=locked \
 
 # Copy source code after dependencies are installed
 # This maximizes cache hits during iterative development
-COPY --link --chown=node:node . .
+COPY --chown=node:node . .
 
 # Install trelloapp dependencies in its subdirectory
 # Monorepo structure requires installing deps in multiple locations
