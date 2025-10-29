@@ -23,6 +23,10 @@ FROM base AS development
 
 WORKDIR /app
 
+# Change ownership of workdir to node user before switching
+# This ensures node user can write to /app and create node_modules
+RUN chown -R node:node /app
+
 # Switch to node user early (exists in official Node images)
 # Running as non-root prevents accidental system modifications
 # Files created by npm will have correct ownership
